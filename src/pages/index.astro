@@ -11,10 +11,6 @@ const blogPosts = allBlogPosts
   .filter((post: any) => !post.data.draft)
   .sort((a: any, b: any) => b.data.date.valueOf() - a.data.date.valueOf())
   .slice(0, SITE.NUM_POSTS_ON_HOMEPAGE);
-const recentPosts = allBlogPosts
-  .filter((post: any) => !post.data.draft)
-  .sort((a: any, b: any) => b.data.date.valueOf() - a.data.date.valueOf())
-  .slice(0, 2);
 
 const speakingEntries = (await getCollection("speaking"))
   .sort((a: any, b: any) => b.data.date.valueOf() - a.data.date.valueOf())

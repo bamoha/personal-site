@@ -23,6 +23,16 @@ const speaking = defineCollection({
   }),
 });
 
+const work = defineCollection({
+  type: "content",
+  schema: z.object({
+    company: z.string(),
+    role: z.string(),
+    dateStart: z.coerce.date(),
+    dateEnd: z.coerce.date().optional(),
+  }),
+});
+
 const projects = defineCollection({
   type: "content",
   schema: z.object({
@@ -35,5 +45,5 @@ const projects = defineCollection({
   }),
 });
 
-export const collections = { blog, speaking, projects };
+export const collections = { blog, speaking, work, projects };
 

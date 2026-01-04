@@ -1,158 +1,235 @@
 ---
 import { getCollection } from "astro:content";
-import Container from "@components/Container.astro";
 import PageLayout from "@layouts/PageLayout.astro";
+import Container from "@components/Container.astro";
 import ArrowCard from "@components/ArrowCard.astro";
-import Link from "@components/Link.astro";
-import { dateRange } from "@lib/utils";
 import { SITE, HOME, SOCIALS } from "@consts";
+import { formatDate } from "@lib/utils";
 
-const blog = (await getCollection("blog"))
-  .filter(post => !post.data.draft)
-  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
-  .slice(0,SITE.NUM_POSTS_ON_HOMEPAGE);
+const allBlogPosts = await getCollection("blog");
+const blogPosts = allBlogPosts
+  .filter((post: any) => !post.data.draft)
+  .sort((a: any, b: any) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, SITE.NUM_POSTS_ON_HOMEPAGE);
+const recentPosts = allBlogPosts
+  .filter((post: any) => !post.data.draft)
+  .sort((a: any, b: any) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 2);
+
+const speakingEntries = (await getCollection("speaking"))
+  .sort((a: any, b: any) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, SITE.NUM_SPEAKING_ON_HOMEPAGE);
 
 const projects = (await getCollection("projects"))
-  .filter(project => !project.data.draft)
-  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
-  .slice(0,SITE.NUM_PROJECTS_ON_HOMEPAGE);
-
-const allwork = (await getCollection("work"))
-  .sort((a, b) => new Date(b.data.dateStart).valueOf() - new Date(a.data.dateStart).valueOf())
-  .slice(0,SITE.NUM_WORKS_ON_HOMEPAGE);
-
-const work = await Promise.all(
-  allwork.map(async (item) => {
-    const { Content } = await item.render();
-    return { ...item, Content };
-  })
-);
-
+  .filter((project: any) => !project.data.draft)
+  .sort((a: any, b: any) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, SITE.NUM_PROJECTS_ON_HOMEPAGE);
 ---
 
 <PageLayout title={HOME.TITLE} description={HOME.DESCRIPTION}>
   <Container>
-    <h4 class="animate font-semibold text-black dark:text-white">
-      Hi, I'm Nano <span class="text-xl">👋🏻</span> 
-    </h4>
-    <div class="space-y-16">
-      <section>
-        <article class="space-y-4">
-          <p class="animate">
-            I am a minimal, seo friendly, accessible portfolio and blog for developers. 
-            I am an even more lightweight version of my popular theme
-            <Link href="https://github.com/markhorn-dev/astro-sphere" aria-label="Astro Sphere on Github" external>
-              Astro Sphere
-            </Link>.
-            I have a lighthouse scores of 100 across the board for performance, 
-            accesibility, best practices and SEO.
+    <div class="space-y-10">
+      <section class="animate space-y-4">
+        <h1 class="font-semibold text-2xl text-black dark:text-[#d1d5db]">
+          Hi, I'm Bashir 👋🏻
+        </h1>
+        <div class="space-y-4 text-black/75 dark:text-[#d1d5db]">
+          <p>
+            I am Bashir, a senior frontend engineer with close to a decade of
+            experience building and shipping thoughtful, user-focused software.
+            I care deeply about clarity, performance, and making complex
+            problems feel simple. Over the years, I have worked across products
+            and teams, helping businesses grow by building interfaces that are
+            reliable, scalable, and easy to use.
           </p>
-          <p class="animate">
-            I come packed with full type safety, a sitemap, an rss feed, markdown 
-            and mdx support (use components in your markdown) through astro integrations.
-            I am styled with tailwind and come preconfigured with light, dark and 
-            system/os theme preferences out of the box.
+          <p>
+            I am intentional about my growth. I take responsibility for
+            continuously improving my technical judgment, communication, and
+            understanding of how software fits into real-world problems. I value
+            restraint in engineering, choosing the right level of abstraction
+            and complexity rather than the most fashionable tools.
           </p>
-          <p class="animate">
-            Visit
-            <Link href="https://github.com/markhorn-dev/astro-nano" aria-label="Astro Nano on Github" external>
-              Astro Nano on Github
-            </Link>
-            to fork the repository, read the docs or one-click deploy on Vercel or Netlify. 
+          <p>
+            I write occasionally about things I learn, share frontend tips, and
+            speak about UI and JavaScript at community events, including DevFest
+            Abuja and Abeokuta. I have also helped support and manage developer
+            communities such as Consonance Club and JsIfe, and I engage in
+            voluntary tutoring and mentorship through initiatives like Peered
+            Camp and Codeday. Community and knowledge-sharing have always been
+            important to me.
           </p>
-        </article>
+          <p>
+            Outside of work, I enjoy reading about world history, automobiles,
+            and aircrafts. I also love pandas, the animal, not the Python
+            library. Mostly because they are black, white, Asian, and somehow
+            manage to represent many cultures at once.
+          </p>
+        </div>
       </section>
 
-      <section class="animate space-y-6">
-        <div class="flex flex-wrap gap-y-2 items-center justify-between">
-          <h5 class="font-semibold text-black dark:text-white">
-            Latest posts
-          </h5>
-          <Link href="/blog">
-            See all posts
-          </Link>
-        </div>
-        <ul class="flex flex-col gap-4">
-          {blog.map(post => (
-            <li>
-              <ArrowCard entry={post} />
-            </li>
-          ))}
-        </ul>
-      </section>
+      {
+        speakingEntries.length > 0 && (
+          <section class="animate space-y-4">
+            <div class="flex items-center justify-between">
+              <h2 class="font-semibold text-black dark:text-[#d1d5db]">Speaking</h2>
+              <a
+                href="/speaking"
+                class="text-sm text-black/50 hover:text-black dark:text-[#d1d5db]/50 dark:hover:text-[#d1d5db] transition-colors"
+              >
+                View all →
+              </a>
+            </div>
+            <ul class="flex flex-col gap-4">
+              {speakingEntries.map((entry: any) => (
+                <li>
+                  <div class="text-sm opacity-75 mb-1">
+                    {formatDate(entry.data.date)}
+                    {entry.data.location && ` • ${entry.data.location}`}
+                  </div>
+                  <div class="font-semibold text-black dark:text-[#d1d5db]">
+                    {entry.data.title}
+                  </div>
+                  <div class="text-sm opacity-75">{entry.data.event}</div>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )
+      }
 
-      <section class="animate space-y-6">
-        <div class="flex flex-wrap gap-y-2 items-center justify-between">
-          <h5 class="font-semibold text-black dark:text-white">
-            Work Experience
-          </h5>
-          <Link href="/work">
-            See all work
-          </Link>
-        </div>
-        <ul class="flex flex-col space-y-4">
-          {work.map(entry => (
-            <li>
-              <div class="text-sm opacity-75">
-                {dateRange(entry.data.dateStart, entry.data.dateEnd)}
-              </div>
-              <div class="font-semibold text-black dark:text-white">
-                {entry.data.company}
-              </div>
-              <div class="text-sm opacity-75">
-                {entry.data.role}
-              </div>
-              <article>
-                <entry.Content />
-              </article>
-            </li>
-          ))}
-        </ul>
-      </section>
+      {
+        projects.length > 0 && (
+          <section class="animate space-y-4">
+            <div class="flex items-center justify-between">
+              <h2 class="font-semibold text-black dark:text-[#d1d5db]">Projects</h2>
+              <a
+                href="/projects"
+                class="text-sm text-black/50 hover:text-black dark:text-[#d1d5db]/50 dark:hover:text-[#d1d5db] transition-colors"
+              >
+                View all →
+              </a>
+            </div>
+            <ul class="flex flex-col gap-4">
+              {projects.map((project) => (
+                <li>
+                  <ArrowCard entry={project} />
+                </li>
+              ))}
+            </ul>
+          </section>
+        )
+      }
 
-      <section class="animate space-y-6">
-        <div class="flex flex-wrap gap-y-2 items-center justify-between">
-          <h5 class="font-semibold text-black dark:text-white">
-            Recent projects
-          </h5>
-          <Link href="/projects">
-            See all projects
-          </Link>
-        </div>
-        <ul class="flex flex-col gap-4">
-          {projects.map(project => (
-            <li>
-              <ArrowCard entry={project} />
-            </li>
-          ))}
-        </ul>
+      {
+        blogPosts.length > 0 && (
+          <section class="animate space-y-4">
+            <div class="flex items-center justify-between">
+              <h2 class="font-semibold text-black dark:text-[#d1d5db]">Blog</h2>
+              <a
+                href="/blog"
+                class="text-sm text-black/50 hover:text-black dark:text-[#d1d5db]/50 dark:hover:text-[#d1d5db] transition-colors"
+              >
+                View all →
+              </a>
+            </div>
+            <ul class="flex flex-col gap-4">
+              {blogPosts.map((post) => (
+                <li>
+                  <ArrowCard entry={post} />
+                </li>
+              ))}
+            </ul>
+          </section>
+        )
+      }
+
+      <section class="animate space-y-4">
+        <h2 class="font-semibold text-black dark:text-[#d1d5db]">Contact Me!</h2>
+        <p class="text-black/75 dark:text-[#d1d5db]">
+          I'm always open and ready to talk, whether for a potential project,
+          open source, community work or just to say hi, I'll definitely reply
+          you as soon as possible!
+        </p>
       </section>
 
       <section class="animate space-y-4">
-        <h5 class="font-semibold text-black dark:text-white">
-          Let's Connect
-        </h5>
-        <article>
-          <p>
-            If you want to get in touch with me about something or just to say hi,
-            reach out on social media or send me an email.
-          </p>
-        </article>
-        <ul class="flex flex-wrap gap-2">
-          {SOCIALS.map(SOCIAL => (
-            <li class="flex gap-x-2 text-nowrap">
-              <Link href={SOCIAL.HREF} external aria-label={`${SITE.NAME} on ${SOCIAL.NAME}`}>
-                {SOCIAL.NAME}
-              </Link>
-              {"/"}
-            </li>
-          ))}
-          <li class="line-clamp-1">
-            <Link href={`mailto:${SITE.EMAIL}`} aria-label={`Email ${SITE.NAME}`}>
-              {SITE.EMAIL}
-            </Link>
-          </li>
-        </ul>
+        <div class="flex items-center gap-4">
+          <a
+            href={`mailto:${SITE.EMAIL}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="flex items-center justify-center size-12 rounded-lg border border-black/15 dark:border-white/20 bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 transition-all duration-300 ease-in-out hover:scale-105"
+            aria-label="Email"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              class="text-black dark:text-[#d1d5db]"
+            >
+              <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
+            </svg>
+          </a>
+          {
+            SOCIALS.filter(
+              (social) =>
+                social.NAME === "twitter-x" ||
+                social.NAME === "linkedin" ||
+                social.NAME === "github"
+            ).map((social) => (
+              <a
+                href={social.HREF}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="flex items-center justify-center size-12 rounded-lg border border-black/15 dark:border-white/20 bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 transition-all duration-300 ease-in-out hover:scale-105"
+                aria-label={
+                  social.NAME === "twitter-x"
+                    ? "Twitter"
+                    : social.NAME === "linkedin"
+                      ? "LinkedIn"
+                      : "GitHub"
+                }
+              >
+                {social.NAME === "twitter-x" ? (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    class="text-black dark:text-[#d1d5db]"
+                  >
+                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                  </svg>
+                ) : social.NAME === "linkedin" ? (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    class="text-black dark:text-[#d1d5db]"
+                  >
+                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+                  </svg>
+                ) : (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    class="text-black dark:text-[#d1d5db]"
+                  >
+                    <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+                  </svg>
+                )}
+              </a>
+            ))
+          }
+        </div>
       </section>
     </div>
   </Container>

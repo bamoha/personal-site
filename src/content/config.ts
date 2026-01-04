@@ -4,19 +4,22 @@ const blog = defineCollection({
   type: "content",
   schema: z.object({
     title: z.string(),
-    description: z.string(),
+    description: z.string().optional(),
     date: z.coerce.date(),
-    draft: z.boolean().optional()
+    draft: z.boolean().optional().default(false),
   }),
 });
 
-const work = defineCollection({
+const speaking = defineCollection({
   type: "content",
   schema: z.object({
-    company: z.string(),
-    role: z.string(),
-    dateStart: z.coerce.date(),
-    dateEnd: z.union([z.coerce.date(), z.string()]),
+    title: z.string(),
+    event: z.string(),
+    location: z.string().optional(),
+    date: z.coerce.date(),
+    eventUrl: z.string().url().optional(),
+    slidesUrl: z.string().url().optional(),
+    youtubeUrl: z.string().url().optional(),
   }),
 });
 
@@ -24,12 +27,13 @@ const projects = defineCollection({
   type: "content",
   schema: z.object({
     title: z.string(),
-    description: z.string(),
+    description: z.string().optional(),
     date: z.coerce.date(),
-    draft: z.boolean().optional(),
-    demoURL: z.string().optional(),
-    repoURL: z.string().optional()
+    draft: z.boolean().optional().default(false),
+    demoURL: z.string().url().optional(),
+    repoURL: z.string().url().optional(),
   }),
 });
 
-export const collections = { blog, work, projects };
+export const collections = { blog, speaking, projects };
+

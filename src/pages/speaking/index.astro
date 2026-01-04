@@ -1,0 +1,104 @@
+---
+import { getCollection } from "astro:content";
+import PageLayout from "@layouts/PageLayout.astro";
+import Container from "@components/Container.astro";
+import { formatDate } from "@lib/utils";
+import { SPEAKING, SITE } from "@consts";
+
+const speaking = (await getCollection("speaking"))
+  .sort((a, b) => new Date(b.data.date).valueOf() - new Date(a.data.date).valueOf());
+---
+
+<PageLayout title={SPEAKING.TITLE} description={SPEAKING.DESCRIPTION}>
+  <Container>
+    <div class="space-y-10">
+      <div class="animate font-semibold text-black dark:text-[#d1d5db]">
+        Speaking
+      </div>
+      
+      <div class="animate space-y-4 text-black/75 dark:text-[#d1d5db]">
+        <p>
+          I have always enjoyed speaking to people.
+        </p>
+        <p>
+          While I was in university, I served in the computer students association executive role as General Secretary, a position that required me to constantly communicate with students, organise meetings, and run campaigns. That experience pushed me into the middle of conversations and public-facing roles, and I quickly realised that I enjoyed it.
+        </p>
+        <p>
+          From there, public speaking became something I leaned into rather than avoided. As a student, I went on to organise, host, and speak at several events. Standing in front of people, explaining ideas, and facilitating discussions started to feel natural to me.
+        </p>
+        <p>
+          Over time, this interest grew beyond the university environment. I have continued to speak at tech events, share what I am learning, and engage with developer communities. For me, public speaking is not about performing on stage, but about connecting with people and exchanging ideas in a clear and honest way.
+        <p>
+          Interested in having me speak at your event?
+        </p>
+        <p>
+          I am always open to new opportunities. If you think I might be a good fit for your event, feel free to <a href={`mailto:${SITE.EMAIL}`} class="text-black dark:text-[#d1d5db] underline">reach out</a> with the details and we can take it from there.
+        </p>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="w-full border-collapse">
+          <thead>
+            <tr class="border-b border-black/15 dark:border-white/20">
+              <th class="text-left py-3 px-4 font-semibold text-black dark:text-[#d1d5db]">Session Name</th>
+              <th class="text-left py-3 px-4 font-semibold text-black dark:text-[#d1d5db]">Event/Location</th>
+              <th class="text-left py-3 px-4 font-semibold text-black dark:text-[#d1d5db]">Date</th>
+              <th class="text-left py-3 px-4 font-semibold text-black dark:text-[#d1d5db]">Links</th>
+            </tr>
+          </thead>
+          <tbody>
+            {speaking.map((entry) => (
+              <tr class="border-b border-black/10 dark:border-white/10 hover:bg-black/5 dark:hover:bg-white/5 transition-colors">
+                <td class="py-3 px-4 font-semibold text-black dark:text-[#d1d5db]">
+                  {entry.data.title}
+                </td>
+                <td class="py-3 px-4 text-sm opacity-75">
+                  {entry.data.event}
+                  {entry.data.location && ` • ${entry.data.location}`}
+                </td>
+                <td class="py-3 px-4 text-sm opacity-75">
+                  {formatDate(entry.data.date)}
+                </td>
+                <td class="py-3 px-4 text-sm">
+                  <div class="flex flex-wrap gap-2">
+                    {entry.data.eventUrl && (
+                      <a 
+                        href={entry.data.eventUrl} 
+                        target="_blank" 
+                        rel="noopener noreferrer" 
+                        class="text-black dark:text-[#d1d5db] underline opacity-75 hover:opacity-100 transition-opacity"
+                      >
+                        Event
+                      </a>
+                    )}
+                    {entry.data.slidesUrl && (
+                      <a 
+                        href={entry.data.slidesUrl} 
+                        target="_blank" 
+                        rel="noopener noreferrer" 
+                        class="text-black dark:text-[#d1d5db] underline opacity-75 hover:opacity-100 transition-opacity"
+                      >
+                        Slides
+                      </a>
+                    )}
+                    {entry.data.youtubeUrl && (
+                      <a 
+                        href={entry.data.youtubeUrl} 
+                        target="_blank" 
+                        rel="noopener noreferrer" 
+                        class="text-black dark:text-[#d1d5db] underline opacity-75 hover:opacity-100 transition-opacity"
+                      >
+                        YouTube
+                      </a>
+                    )}
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </Container>
+</PageLayout>
+

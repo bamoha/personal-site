@@ -4,4 +4,5 @@
 - [ ] Add more articles and projects
 - [ ] Deploy to Cloudflare Pages
 - [ ] Get a domain
+- [ ] SEO
 

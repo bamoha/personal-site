@@ -21,17 +21,17 @@ body {
   @apply flex flex-col;
   @apply bg-gray-100 dark:bg-gray-900;
   @apply text-black/50 dark:text-[#d1d5db];
-  @apply transition-colors duration-500 ease-in-out;
+  @apply transition-colors duration-150 ease-in-out;
 }
 
 header {
   @apply fixed top-0 left-0 right-0 z-50 py-5;
   @apply bg-gray-100 dark:bg-gray-900;
-  @apply transition-colors duration-500 ease-in-out;
+  @apply transition-colors duration-150 ease-in-out;
 }
 
 header * {
-  @apply transition-colors duration-500 ease-in-out;
+  @apply transition-colors duration-150 ease-in-out;
 }
 
 main {
@@ -67,4 +67,22 @@ article {
 
 .animate.show {
   @apply opacity-100 translate-y-0;
+}
+
+.animate-profile {
+  animation: profile-pop 0.6s ease-out 0.3s both;
+}
+
+@keyframes profile-pop {
+  0% {
+    opacity: 0;
+    transform: scale(0.5) rotate(-10deg);
+  }
+  50% {
+    transform: scale(1.1) rotate(2deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
 }

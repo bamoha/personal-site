@@ -5,8 +5,6 @@ date: 2025-01-15
 draft: false
 ---
 
-# Learning How to Solve Sudoku (The Easy Way)
-
 A lot of people think Sudoku is about being smart or good with numbers.
 
 It is not.

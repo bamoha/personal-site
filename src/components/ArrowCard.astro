@@ -1,5 +1,6 @@
 ---
 import type { CollectionEntry } from "astro:content";
+import { formatDate } from "@lib/utils";
 
 type Props = {
   entry: CollectionEntry<"blog"> | CollectionEntry<"projects">;
@@ -10,6 +11,9 @@ const { entry } = Astro.props;
 
 <a href={`/${entry.collection}/${entry.slug}`} class="relative group flex flex-nowrap py-3 px-4 pr-10 rounded-lg border border-black/15 dark:border-white/20 bg-black/5 dark:bg-gray-800 hover:bg-white dark:hover:bg-gray-700 text-black dark:text-white transition-colors duration-300 ease-in-out">
   <div class="flex flex-col flex-1 truncate">
+    <div class="text-xs text-black/50 dark:text-white/50 mb-1">
+      {formatDate(entry.data.date)}
+    </div>
     <div class="font-semibold">
       {entry.data.title}
     </div>

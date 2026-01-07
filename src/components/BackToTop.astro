@@ -1,4 +1,4 @@
-<button id="back-to-top" class="relative group w-fit flex pl-8 pr-3 py-1.5 flex-nowrap rounded border border-black/15 dark:border-white/20 hover:bg-black/5 dark:hover:bg-white/5 hover:text-black dark:hover:text-white transition-colors duration-300 ease-in-out">
+<button id="back-to-top" class="relative group w-fit flex pl-8 pr-3 py-1.5 flex-nowrap rounded border border-black/15 dark:border-white/20 hover:bg-black/5 dark:hover:bg-white/5 hover:text-black dark:hover:text-white transition-all duration-300 ease-in-out opacity-0 pointer-events-none">
   <svg 
     xmlns="http://www.w3.org/2000/svg" 
     viewBox="0 0 24 24"
@@ -10,3 +10,30 @@
     Back to top
   </div>
 </button>
+
+<script>
+  function initBackToTop() {
+    const button = document.getElementById("back-to-top");
+    
+    function updateButtonVisibility() {
+      if (!button) return;
+      if (window.scrollY > 300) {
+        button.classList.remove("opacity-0", "pointer-events-none");
+        button.classList.add("opacity-100", "pointer-events-auto");
+      } else {
+        button.classList.add("opacity-0", "pointer-events-none");
+        button.classList.remove("opacity-100", "pointer-events-auto");
+      }
+    }
+    
+    button?.addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+    
+    window.addEventListener("scroll", updateButtonVisibility);
+    updateButtonVisibility();
+  }
+
+  initBackToTop();
+  document.addEventListener("astro:after-swap", initBackToTop);
+</script>

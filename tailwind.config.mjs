@@ -6,7 +6,7 @@ export default {
     extend: {
       fontFamily: {
         sans: [
-          "Figtree",
+          "Oldenburg",
           "system-ui",
           "sans-serif",
         ],

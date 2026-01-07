@@ -1,6 +1,6 @@
 ---
 title: "Giving Your AI Eyes: Bringing the Power of Chrome DevTools to Your Coding Assistant using MCP"
-event: "GDG Abeokuta"
+event: "DevFest Abeokuta"
 location: "Abeokuta, Nigeria"
 date: 2025-12-06
 eventUrl: "https://www.devfestabeokuta.com/"
@@ -10,7 +10,7 @@ draft: false
 
 # Giving Your AI Eyes: Bringing the Power of Chrome DevTools to Your Coding Assistant using MCP
 
-I gave this talk at **GDG Abeokuta**, where I explored how we can move beyond text-only coding assistants by giving them real visibility into what is happening in the browser.
+I gave this talk at **DevFest Abeokuta**, where I explored how we can move beyond text-only coding assistants by giving them real visibility into what is happening in the browser.
 
 The session focused on using **Chrome DevTools** together with the **Model Context Protocol (MCP)** to allow an AI assistant reason about actual UI state, DOM structure, network activity, and runtime behaviour, instead of relying purely on assumptions from code.
 
@@ -28,7 +28,7 @@ The goal of the talk was to show what becomes possible when AI tools are given p
 
 ## Event
 
-This talk was presented at **GDG Abeokuta**.  
+This talk was presented at **DevFest Abeokuta**.  
 You can learn more about the event and community here:
 
 https://www.devfestabeokuta.com/

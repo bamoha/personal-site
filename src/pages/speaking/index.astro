@@ -37,67 +37,54 @@ const speaking = (await getCollection("speaking"))
         </p>
       </div>
 
-      <div class="overflow-x-auto">
-        <table class="w-full border-collapse">
-          <thead>
-            <tr class="border-b border-black/15 dark:border-white/20">
-              <th class="text-left py-3 px-4 font-semibold text-black dark:text-[#d1d5db]">Session Name</th>
-              <th class="text-left py-3 px-4 font-semibold text-black dark:text-[#d1d5db]">Event/Location</th>
-              <th class="text-left py-3 px-4 font-semibold text-black dark:text-[#d1d5db]">Date</th>
-              <th class="text-left py-3 px-4 font-semibold text-black dark:text-[#d1d5db]">Links</th>
-            </tr>
-          </thead>
-          <tbody>
-            {speaking.map((entry) => (
-              <tr class="border-b border-black/10 dark:border-white/10 hover:bg-black/5 dark:hover:bg-white/5 transition-colors">
-                <td class="py-3 px-4 font-semibold text-black dark:text-[#d1d5db]">
-                  {entry.data.title}
-                </td>
-                <td class="py-3 px-4 text-sm opacity-75">
-                  {entry.data.event}
-                  {entry.data.location && ` • ${entry.data.location}`}
-                </td>
-                <td class="py-3 px-4 text-sm opacity-75">
-                  {formatDate(entry.data.date)}
-                </td>
-                <td class="py-3 px-4 text-sm">
-                  <div class="flex flex-wrap gap-2">
-                    {entry.data.eventUrl && (
-                      <a 
-                        href={entry.data.eventUrl} 
-                        target="_blank" 
-                        rel="noopener noreferrer" 
-                        class="text-black dark:text-[#d1d5db] underline opacity-75 hover:opacity-100 transition-opacity"
-                      >
-                        Event
-                      </a>
-                    )}
-                    {entry.data.slidesUrl && (
-                      <a 
-                        href={entry.data.slidesUrl} 
-                        target="_blank" 
-                        rel="noopener noreferrer" 
-                        class="text-black dark:text-[#d1d5db] underline opacity-75 hover:opacity-100 transition-opacity"
-                      >
-                        Slides
-                      </a>
-                    )}
-                    {entry.data.youtubeUrl && (
-                      <a 
-                        href={entry.data.youtubeUrl} 
-                        target="_blank" 
-                        rel="noopener noreferrer" 
-                        class="text-black dark:text-[#d1d5db] underline opacity-75 hover:opacity-100 transition-opacity"
-                      >
-                        YouTube
-                      </a>
-                    )}
-                  </div>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+      <div class="space-y-3">
+        {speaking.map((entry) => (
+          <div class="flex items-start justify-between gap-4 py-3 border-b border-black/10 dark:border-white/10">
+            <div class="flex-1 min-w-0">
+              <div class="font-semibold text-black dark:text-[#d1d5db]">
+                {entry.data.title}
+              </div>
+              <div class="text-sm opacity-75 mt-1">
+                {entry.data.event}{entry.data.location && ` • ${entry.data.location}`}
+              </div>
+              <div class="text-sm opacity-75">
+                {formatDate(entry.data.date)}
+              </div>
+            </div>
+            <div class="flex flex-col gap-1 text-sm shrink-0">
+              {entry.data.eventUrl && (
+                <a 
+                  href={entry.data.eventUrl} 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  class="text-black dark:text-[#d1d5db] underline opacity-75 hover:opacity-100"
+                >
+                  Event
+                </a>
+              )}
+              {entry.data.slidesUrl && (
+                <a 
+                  href={entry.data.slidesUrl} 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  class="text-black dark:text-[#d1d5db] underline opacity-75 hover:opacity-100"
+                >
+                  Slides
+                </a>
+              )}
+              {entry.data.youtubeUrl && (
+                <a 
+                  href={entry.data.youtubeUrl} 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  class="text-black dark:text-[#d1d5db] underline opacity-75 hover:opacity-100"
+                >
+                  YouTube
+                </a>
+              )}
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   </Container>

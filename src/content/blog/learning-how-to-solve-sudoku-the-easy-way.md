@@ -15,6 +15,12 @@ That is what this article is about.
 
 ---
 
+## Try it yourself
+
+Want to practice what you just learned? [Try the Sudoku app](https://playsudoku-app.netlify.app/) and apply these rules in real-time.
+
+---
+
 ## How I learned
 
 When I was younger, my dad travelled and I asked him to buy me video games.

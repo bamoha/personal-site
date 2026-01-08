@@ -11,18 +11,6 @@ It is not.
 
 Sudoku is really about staying calm, paying attention, and following simple rules. Once you understand how to look at the board properly, the puzzle starts to solve itself.
 
-That is what this article is about.
-
----
-
-## Try it yourself
-
-Want to practice what you just learned? [Try the Sudoku app](https://playsudoku-app.netlify.app/) and apply these rules in real-time.
-
----
-
-## How I learned
-
 When I was younger, my dad travelled and I asked him to buy me video games.
 
 Instead, he came back with an electronic Sudoku game.
@@ -33,11 +21,16 @@ That manual changed everything.
 
 It did not teach anything complicated. It simply explained the rules clearly and showed how to apply them patiently. Once I understood those rules, Sudoku stopped feeling hard.
 
-What I am sharing here is based on that same idea. Simple rules. No shortcuts. Just what works.
+---
+
+## Try it yourself
+
+Want to practice what you just learned? [Try the Sudoku app](https://playsudoku-app.netlify.app/) and apply these rules in real-time.
 
 ---
 
-## The only rules you need
+
+## The rules
 
 Sudoku has only **three rules**.
 
@@ -155,22 +148,6 @@ Good players do not force moves. They:
 
 The board will always give you a clear move if you look carefully.
 
----
-
-## How good players think (even children)
-
-Good Sudoku players do not try to finish the whole board at once.
-
-They ask simple questions:
-- Which row is almost complete?
-- Which column needs just one number?
-- Which box has the fewest empty spaces?
-
-They focus on small wins. Those small wins add up.
-
----
-
-## Why this approach always works
 
 Every proper Sudoku puzzle has a solution.
 
@@ -179,13 +156,6 @@ If you:
 - Avoid guessing
 - Check rows, columns, and boxes carefully
 
-You will always get there.
-
-There is no need to rush. Being correct is more important than being fast.
-
----
-
-## Final thought
 
 Sudoku is not really about numbers.
 

@@ -1,0 +1,36 @@
+---
+import PageLayout from "@layouts/PageLayout.astro";
+import Container from "@components/Container.astro";
+import Link from "@components/Link.astro";
+---
+
+<PageLayout 
+  title="404 - Page Not Found" 
+  description="The page you're looking for doesn't exist."
+  noindex={true}
+>
+  <Container>
+    <div class="flex flex-col items-center justify-center min-h-[60vh] text-center space-y-6">
+      <div class="animate">
+        <h1 class="text-6xl font-semibold text-black dark:text-[#d1d5db] mb-2">404</h1>
+        <p class="text-xl text-black/75 dark:text-[#d1d5db]/75 mb-4">
+          Page not found
+        </p>
+        <p class="text-black/50 dark:text-white/50 max-w-md">
+          The page you're looking for doesn't exist or has been moved.
+        </p>
+      </div>
+      
+      <div class="animate flex gap-4">
+        <Link href="/" noTransition>
+          Go home
+        </Link>
+        <span class="text-black/50 dark:text-white/50">/</span>
+        <Link href="/blog" noTransition>
+          Read blog
+        </Link>
+      </div>
+    </div>
+  </Container>
+</PageLayout>
+

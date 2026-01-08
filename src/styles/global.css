@@ -35,11 +35,6 @@ body {
 header {
   @apply fixed top-0 left-0 right-0 z-50 py-5;
   @apply bg-gray-100 dark:bg-gray-900;
-  @apply transition-colors duration-150 ease-in-out;
-}
-
-header * {
-  @apply transition-colors duration-150 ease-in-out;
 }
 
 main {

@@ -2,20 +2,34 @@
 import Head from "@components/Head.astro";
 import Header from "@components/Header.astro";
 import Footer from "@components/Footer.astro";
-import { SITE } from "@consts";
+import { SEO } from "@consts";
 
 type Props = {
   title: string;
   description: string;
+  image?: string;
+  article?: {
+    publishedTime?: Date;
+    modifiedTime?: Date;
+    author?: string;
+    tags?: string[];
+  };
+  noindex?: boolean;
 };
 
-const { title, description } = Astro.props;
+const { title, description, image, article, noindex } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={SEO.LANGUAGE} dir="ltr">
   <head>
-    <Head title={`${title} | ${SITE.NAME}`} description={description} />
+    <Head 
+      title={title} 
+      description={description} 
+      image={image}
+      article={article}
+      noindex={noindex}
+    />
   </head>
   <body>
     <Header />

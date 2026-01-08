@@ -4,48 +4,214 @@ import "@fontsource/oldenburg/400.css";
 import oldenburg400 from "@fontsource/oldenburg/files/oldenburg-latin-400-normal.woff2";
 
 import { ClientRouter } from "astro:transitions";
-import { SITE } from "@consts";
+import { SITE, SEO } from "@consts";
 
 interface Props {
   title: string;
   description: string;
   image?: string;
+  article?: {
+    publishedTime?: Date;
+    modifiedTime?: Date;
+    author?: string;
+    tags?: string[];
+  };
+  noindex?: boolean;
 }
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const { title, description, image = SEO.OG_IMAGE, article, noindex = false } = Astro.props;
 
-const { title, description, image = "/nano.png" } = Astro.props;
+const fullTitle = title === "Bashir Hamza - Software Craftsman" 
+  ? title 
+  : `${title} | ${SEO.AUTHOR}`;
+
+const ogImageURL = new URL(image, Astro.site);
+
+// JSON-LD Structured Data
+const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": SEO.AUTHOR,
+  "description": description,
+  "url": SEO.SITE_URL,
+  "author": {
+    "@type": "Person",
+    "name": SEO.AUTHOR,
+  },
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": `${SEO.SITE_URL}/blog?q={search_term_string}`,
+    "query-input": "required name=search_term_string"
+  }
+};
+
+const personSchema = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": SEO.AUTHOR,
+  "url": SEO.SITE_URL,
+  "image": `${SEO.SITE_URL}/bashir.png`,
+  "email": SITE.EMAIL,
+  "jobTitle": "Software Craftsman",
+  "description": "Software Craftsman with close to a decade of experience building digital products.",
+  "sameAs": [
+    "https://github.com/bamoha",
+    "https://www.linkedin.com/in/bashirhamza",
+    "https://x.com/bamoohaa"
+  ],
+  "knowsAbout": [
+    "Web Development",
+    "JavaScript",
+    "TypeScript",
+    "React",
+    "Angular",
+    "Software Engineering",
+    "Frontend Development"
+  ]
+};
+
+const articleSchema = article ? {
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": title,
+  "description": description,
+  "image": ogImageURL.toString(),
+  "url": canonicalURL.toString(),
+  "datePublished": article.publishedTime?.toISOString(),
+  "dateModified": (article.modifiedTime || article.publishedTime)?.toISOString(),
+  "author": {
+    "@type": "Person",
+    "name": article.author || SEO.AUTHOR,
+    "url": SEO.SITE_URL
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": SEO.AUTHOR,
+    "url": SEO.SITE_URL,
+    "logo": {
+      "@type": "ImageObject",
+      "url": `${SEO.SITE_URL}/bashir.png`
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": canonicalURL.toString()
+  },
+  "keywords": article.tags?.join(", ")
+} : null;
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": Astro.url.pathname.split("/").filter(Boolean).map((segment, index, arr) => ({
+    "@type": "ListItem",
+    "position": index + 1,
+    "name": segment.charAt(0).toUpperCase() + segment.slice(1).replace(/-/g, " "),
+    "item": `${SEO.SITE_URL}/${arr.slice(0, index + 1).join("/")}`
+  }))
+};
 ---
 
+<!-- Primary Meta Tags -->
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<link rel="icon" type="image/svg+xml" href="/favicon-light.svg" id="favicon-svg">
-<link rel="icon" type="image/x-icon" href="/favicon.ico" sizes="any">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
 <meta name="generator" content={Astro.generator} />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
-<link rel="preload" href={oldenburg400} as="font" type="font/woff2" crossorigin/>
+<!-- SEO Meta Tags -->
+<title>{fullTitle}</title>
+<meta name="title" content={fullTitle} />
+<meta name="description" content={description} />
+<meta name="author" content={SEO.AUTHOR} />
+<meta name="keywords" content={SEO.KEYWORDS.join(", ")} />
+<meta name="robots" content={noindex ? "noindex, nofollow" : "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"} />
+<meta name="googlebot" content={noindex ? "noindex, nofollow" : "index, follow"} />
 
+<!-- Language and Locale -->
+<meta property="og:locale" content={SEO.LOCALE} />
+<meta http-equiv="content-language" content={SEO.LANGUAGE} />
+<link rel="alternate" hreflang={SEO.LANGUAGE} href={canonicalURL} />
+<link rel="alternate" hreflang="x-default" href={canonicalURL} />
+
+<!-- Canonical URL -->
 <link rel="canonical" href={canonicalURL} />
 
-<title>{title}</title>
-<meta name="title" content={title} />
-<meta name="description" content={description} />
+<!-- Theme Color -->
+<meta name="theme-color" content={SEO.THEME_COLOR} media="(prefers-color-scheme: dark)" />
+<meta name="theme-color" content={SEO.THEME_COLOR_LIGHT} media="(prefers-color-scheme: light)" />
+<meta name="msapplication-TileColor" content={SEO.THEME_COLOR} />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
 
-<meta property="og:type" content="website" />
-<meta property="og:url" content={Astro.url} />
-<meta property="og:title" content={title} />
+<!-- Favicons -->
+<link rel="icon" type="image/svg+xml" href="/favicon-light.svg" id="favicon-svg" />
+<link rel="icon" type="image/x-icon" href="/favicon.ico" sizes="any" />
+<link rel="apple-touch-icon" sizes="180x180" href="/bashir.png" />
+<link rel="mask-icon" href="/favicon.svg" color={SEO.THEME_COLOR} />
+
+<!-- Web App Manifest -->
+<link rel="manifest" href="/manifest.json" />
+
+<!-- Font Preload -->
+<link rel="preload" href={oldenburg400} as="font" type="font/woff2" crossorigin />
+
+<!-- DNS Prefetch for Performance -->
+<link rel="dns-prefetch" href="https://static.cloudflareinsights.com" />
+<link rel="preconnect" href="https://static.cloudflareinsights.com" crossorigin />
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content={article ? "article" : "website"} />
+<meta property="og:url" content={canonicalURL} />
+<meta property="og:title" content={fullTitle} />
 <meta property="og:description" content={description} />
-<meta property="og:image" content={new URL(image, Astro.url)} />
+<meta property="og:image" content={ogImageURL} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content={title} />
+<meta property="og:site_name" content={SEO.AUTHOR} />
 
-<meta property="twitter:card" content="summary_large_image" />
-<meta property="twitter:url" content={Astro.url} />
-<meta property="twitter:title" content={title} />
-<meta property="twitter:description" content={description} />
-<meta property="twitter:image" content={new URL(image, Astro.url)} />
+{article && (
+  <>
+    <meta property="article:published_time" content={article.publishedTime?.toISOString()} />
+    {article.modifiedTime && <meta property="article:modified_time" content={article.modifiedTime.toISOString()} />}
+    <meta property="article:author" content={article.author || SEO.AUTHOR} />
+    {article.tags?.map(tag => <meta property="article:tag" content={tag} />)}
+  </>
+)}
 
-<ClientRouter  />
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content={SEO.TWITTER_HANDLE} />
+<meta name="twitter:creator" content={SEO.TWITTER_HANDLE} />
+<meta name="twitter:url" content={canonicalURL} />
+<meta name="twitter:title" content={fullTitle} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImageURL} />
+<meta name="twitter:image:alt" content={title} />
 
-<link rel="alternate" type="application/rss+xml" title={SITE.NAME} href={new URL("rss.xml", Astro.site)} />
+<!-- Additional Social Meta -->
+<meta property="profile:first_name" content="Bashir" />
+<meta property="profile:last_name" content="Hamza" />
+
+<!-- RSS Feed -->
+<link rel="alternate" type="application/rss+xml" title={`${SEO.AUTHOR} - RSS Feed`} href={new URL("rss.xml", Astro.site)} />
+
+<!-- Sitemap -->
+<link rel="sitemap" type="application/xml" href="/sitemap-index.xml" />
+
+<!-- JSON-LD Structured Data -->
+<script is:inline type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
+<script is:inline type="application/ld+json" set:html={JSON.stringify(personSchema)} />
+{breadcrumbSchema.itemListElement.length > 0 && (
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+)}
+{articleSchema && (
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(articleSchema)} />
+)}
+
+<!-- Astro Client Router for View Transitions -->
+<ClientRouter />
 
 <script>
   import type { TransitionBeforeSwapEvent } from "astro:transitions/client";
@@ -66,36 +232,50 @@ const { title, description, image = "/nano.png" } = Astro.props;
   }
 
   function updateThemeSwitch(theme) {
-    const switchElement = document.getElementById("theme-switch");
-    const indicator = document.getElementById("theme-switch-indicator");
-    const lightButton = document.getElementById("theme-button-light");
-    const darkButton = document.getElementById("theme-button-dark");
+    // Handle both mobile and desktop switches
+    const switches = document.querySelectorAll("#theme-switch, #theme-switch-desktop");
+    const indicators = document.querySelectorAll("#theme-switch-indicator, .theme-switch-indicator");
+    const lightButtons = document.querySelectorAll(".theme-button-light");
+    const darkButtons = document.querySelectorAll(".theme-button-dark");
     
-    if (!indicator) return;
+    // Fade in switches
+    switches.forEach(sw => {
+      if (sw && sw.classList.contains("opacity-0")) {
+        setTimeout(() => {
+          sw.classList.remove("opacity-0");
+          sw.classList.add("opacity-100");
+        }, 100);
+      }
+    });
     
-    if (switchElement && switchElement.classList.contains("opacity-0")) {
-      setTimeout(() => {
-        switchElement.classList.remove("opacity-0");
-        switchElement.classList.add("opacity-100");
-      }, 100);
-    }
-    
+    // Move indicators
     const position = theme === "dark" ? 1 : 0;
     const offset = position * 28;
-    indicator.style.transform = `translateX(${offset}px)`;
+    indicators.forEach(ind => {
+      if (ind) ind.style.transform = `translateX(${offset}px)`;
+    });
     
-    [lightButton, darkButton].forEach(btn => {
+    // Update button opacity
+    lightButtons.forEach(btn => {
+      if (btn) {
+        btn.classList.remove("opacity-100");
+        btn.classList.add("opacity-60");
+      }
+    });
+    darkButtons.forEach(btn => {
       if (btn) {
         btn.classList.remove("opacity-100");
         btn.classList.add("opacity-60");
       }
     });
     
-    const activeButton = theme === "dark" ? darkButton : lightButton;
-    if (activeButton) {
-      activeButton.classList.remove("opacity-60");
-      activeButton.classList.add("opacity-100");
-    }
+    const activeButtons = theme === "dark" ? darkButtons : lightButtons;
+    activeButtons.forEach(btn => {
+      if (btn) {
+        btn.classList.remove("opacity-60");
+        btn.classList.add("opacity-100");
+      }
+    });
   }
 
   function toggleCurrentTheme() {
@@ -107,8 +287,9 @@ const { title, description, image = "/nano.png" } = Astro.props;
     preloadTheme();
     animate();
 
-    const themeSwitch = document.getElementById("theme-switch");
-    themeSwitch?.addEventListener("click", toggleCurrentTheme);
+    // Add click handlers to both mobile and desktop switches
+    const switches = document.querySelectorAll("#theme-switch, #theme-switch-desktop");
+    switches.forEach(sw => sw?.addEventListener("click", toggleCurrentTheme));
     
     const currentTheme = localStorage.theme || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
     setTimeout(() => {
@@ -177,4 +358,4 @@ const { title, description, image = "/nano.png" } = Astro.props;
 </script>
 
 <!-- Cloudflare Web Analytics -->
-<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "YOUR_CF_ANALYTICS_TOKEN"}'></script>
+<script is:inline defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "YOUR_CF_ANALYTICS_TOKEN"}'></script>

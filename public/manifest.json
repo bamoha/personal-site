@@ -1,0 +1,22 @@
+{
+  "name": "Bashir Hamza - Software Craftsman",
+  "short_name": "B. Hamza",
+  "description": "Software Craftsman with close to a decade of experience building digital products.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/bashir.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["blog", "technology", "software", "portfolio"],
+  "lang": "en",
+  "dir": "ltr"
+}
+

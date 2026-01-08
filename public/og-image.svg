@@ -1,0 +1,52 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a0a0a"/>
+      <stop offset="100%" style="stop-color:#1a1a1a"/>
+    </linearGradient>
+    <linearGradient id="text-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#ffffff"/>
+      <stop offset="100%" style="stop-color:#d1d5db"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg-gradient)"/>
+  
+  <!-- Subtle grid pattern -->
+  <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+    <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#ffffff" stroke-opacity="0.03" stroke-width="1"/>
+  </pattern>
+  <rect width="1200" height="630" fill="url(#grid)"/>
+  
+  <!-- Accent line -->
+  <rect x="80" y="200" width="4" height="230" fill="#ffffff" opacity="0.8"/>
+  
+  <!-- Name -->
+  <text x="110" y="280" font-family="system-ui, -apple-system, sans-serif" font-size="72" font-weight="700" fill="#ffffff">
+    Bashir Hamza
+  </text>
+  
+  <!-- Title -->
+  <text x="110" y="350" font-family="system-ui, -apple-system, sans-serif" font-size="36" fill="#d1d5db">
+    Software Craftsman
+  </text>
+  
+  <!-- Tagline -->
+  <text x="110" y="410" font-family="system-ui, -apple-system, sans-serif" font-size="24" fill="#9ca3af">
+    Building things that are clear, resilient,
+  </text>
+  <text x="110" y="445" font-family="system-ui, -apple-system, sans-serif" font-size="24" fill="#9ca3af">
+    and designed to last.
+  </text>
+  
+  <!-- Website URL -->
+  <text x="110" y="550" font-family="system-ui, -apple-system, sans-serif" font-size="20" fill="#6b7280">
+    bhamza.dev
+  </text>
+  
+  <!-- Decorative elements -->
+  <circle cx="1050" cy="150" r="80" fill="#ffffff" opacity="0.03"/>
+  <circle cx="1100" cy="500" r="120" fill="#ffffff" opacity="0.02"/>
+</svg>
+

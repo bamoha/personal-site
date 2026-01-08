@@ -6,7 +6,7 @@ import FormattedDate from "@components/FormattedDate.astro";
 import SharePost from "@components/SharePost.astro";
 import { readingTime } from "@lib/utils";
 import BackToPrev from "@components/BackToPrev.astro";
-import { SITE } from "@consts";
+import { SEO } from "@consts";
 
 export async function getStaticPaths() {
   const posts = (await getCollection("blog"))
@@ -22,9 +22,20 @@ type Props = CollectionEntry<"blog">;
 const post = Astro.props;
 const { Content } = await post.render();
 const postUrl = new URL(Astro.url.pathname, Astro.site).toString();
+
+// Extract tags from post if available
+const tags = post.data.tags || [];
 ---
 
-<PageLayout title={post.data.title} description={post.data.description || ""}>
+<PageLayout 
+  title={post.data.title} 
+  description={post.data.description || ""}
+  article={{
+    publishedTime: post.data.date,
+    author: SEO.AUTHOR,
+    tags: tags
+  }}
+>
   <Container>
     <div class="animate">
       <BackToPrev href="/blog">

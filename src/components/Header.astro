@@ -6,40 +6,26 @@ import { SITE } from "@consts";
 
 <header>
   <Container>
-    <div class="flex flex-wrap gap-y-2 justify-between">
-      <Link href="/" underline={false}>
-        <div class="flex items-center gap-3">
-          <img 
-            src="/logo.jpeg" 
-            alt="B. Hamza Logo" 
-            class="w-8 h-8 rounded-full object-cover"
-          />
-          <div class="font-semibold">
-            {SITE.NAME}
+    <div class="flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:justify-between sm:items-center">
+      <!-- Top row: Logo + Theme switcher (mobile), Logo only (desktop) -->
+      <div class="flex items-center justify-between w-full sm:w-auto">
+        <Link href="/" underline={false} noTransition>
+          <div class="flex items-center gap-3">
+            <img 
+              src="/logo.jpeg" 
+              alt="B. Hamza Logo" 
+              class="w-8 h-8 rounded-full object-cover"
+            />
+            <div class="font-semibold">
+              {SITE.NAME}
+            </div>
           </div>
-        </div>
-      </Link>
-      <div class="flex items-center gap-4">
-        <nav class="flex gap-1.5">
-          <Link href="/blog">
-            Blog
-          </Link>
-          <span>
-            {`/`}
-          </span>
-          <Link href="/speaking">
-            Speaking
-          </Link>
-          <span>
-            {`/`}
-          </span>
-          <Link href="/projects">
-            Projects
-          </Link>
-        </nav>
+        </Link>
+        
+        <!-- Theme switcher - visible on mobile in this row -->
         <div 
           id="theme-switch"
-          class="relative inline-flex items-center gap-0 p-1 rounded-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 opacity-0 transition-opacity duration-500 ease-in-out cursor-pointer"
+          class="sm:hidden relative inline-flex items-center gap-0 p-1 rounded-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 opacity-0 transition-opacity duration-500 ease-in-out cursor-pointer"
           role="button"
           aria-label="Toggle theme"
         >
@@ -49,22 +35,10 @@ import { SITE } from "@consts";
           ></div>
           
           <div
-            id="theme-button-light"
             aria-hidden="true"
-            class="relative z-10 size-7 flex items-center justify-center rounded-full transition-colors duration-200 pointer-events-none"
+            class="theme-button-light relative z-10 size-7 flex items-center justify-center rounded-full pointer-events-none"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              class="transition-opacity duration-200"
-            >
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
               <circle cx="12" cy="12" r="5"></circle>
               <line x1="12" y1="1" x2="12" y2="3"></line>
               <line x1="12" y1="21" x2="12" y2="23"></line>
@@ -78,22 +52,65 @@ import { SITE } from "@consts";
           </div>
           
           <div
-            id="theme-button-dark"
             aria-hidden="true"
-            class="relative z-10 size-7 flex items-center justify-center rounded-full transition-colors duration-200 pointer-events-none"
+            class="theme-button-dark relative z-10 size-7 flex items-center justify-center rounded-full pointer-events-none"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              class="transition-opacity duration-200"
-            >
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Nav links + Theme switcher (desktop) -->
+      <div class="flex items-center gap-4">
+        <nav class="flex gap-1.5 justify-center w-full sm:w-auto">
+          <Link href="/blog" noTransition>
+            Blog
+          </Link>
+          <span>/</span>
+          <Link href="/speaking" noTransition>
+            Speaking
+          </Link>
+          <span>/</span>
+          <Link href="/projects" noTransition>
+            Projects
+          </Link>
+        </nav>
+        
+        <!-- Theme switcher - desktop only -->
+        <div 
+          id="theme-switch-desktop"
+          class="hidden sm:relative sm:inline-flex items-center gap-0 p-1 rounded-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 opacity-0 transition-opacity duration-500 ease-in-out cursor-pointer"
+          role="button"
+          aria-label="Toggle theme"
+        >
+          <div 
+            class="theme-switch-indicator absolute h-7 w-7 rounded-full bg-black/10 dark:bg-white/10 transition-all duration-300 ease-in-out"
+          ></div>
+          
+          <div
+            aria-hidden="true"
+            class="theme-button-light relative z-10 size-7 flex items-center justify-center rounded-full pointer-events-none"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="5"></circle>
+              <line x1="12" y1="1" x2="12" y2="3"></line>
+              <line x1="12" y1="21" x2="12" y2="23"></line>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+              <line x1="1" y1="12" x2="3" y2="12"></line>
+              <line x1="21" y1="12" x2="23" y2="12"></line>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+            </svg>
+          </div>
+          
+          <div
+            aria-hidden="true"
+            class="theme-button-dark relative z-10 size-7 flex items-center justify-center rounded-full pointer-events-none"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
               <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
             </svg>
           </div>

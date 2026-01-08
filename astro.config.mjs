@@ -6,7 +6,7 @@ import { fileURLToPath } from "node:url";
 import { resolve } from "node:path";
 
 export default defineConfig({
-  site: "https://bashirhamza.netlify.app",
+  site: "https://bhamza.dev",
   integrations: [mdx(), sitemap(), tailwind()],
   vite: {
     resolve: {

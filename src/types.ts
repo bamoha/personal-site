@@ -6,6 +6,18 @@ export type Site = {
   NUM_PROJECTS_ON_HOMEPAGE: number;
 };
 
+export type SEOConfig = {
+  AUTHOR: string;
+  SITE_URL: string;
+  LOCALE: string;
+  LANGUAGE: string;
+  TWITTER_HANDLE: string;
+  KEYWORDS: string[];
+  OG_IMAGE: string;
+  THEME_COLOR: string;
+  THEME_COLOR_LIGHT: string;
+};
+
 export type Metadata = {
   TITLE: string;
   DESCRIPTION: string;

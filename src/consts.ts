@@ -8,9 +8,34 @@ export const SITE: Site = {
   NUM_PROJECTS_ON_HOMEPAGE: 3,
 };
 
+// SEO Configuration
+export const SEO = {
+  AUTHOR: "Bashir Hamza",
+  SITE_URL: "https://bhamza.dev",
+  LOCALE: "en_US",
+  LANGUAGE: "en",
+  TWITTER_HANDLE: "@bamoohaa",
+  KEYWORDS: [
+    "Bashir Hamza",
+    "Software Craftsman",
+    "Frontend Engineer",
+    "Web Developer",
+    "Software Engineer",
+    "JavaScript",
+    "TypeScript",
+    "React",
+    "Angular",
+    "Tech Speaker",
+    "Nigeria Developer",
+  ],
+  OG_IMAGE: "/og-image.png",
+  THEME_COLOR: "#000000",
+  THEME_COLOR_LIGHT: "#ffffff",
+};
+
 export const HOME: Metadata = {
-  TITLE: "Home",
-  DESCRIPTION: "Technology enthusiast interested in making an impact in the world of tech. Ambitious problem solver with a passion for growing businesses.",
+  TITLE: "Bashir Hamza - Software Craftsman",
+  DESCRIPTION: "Software Craftsman with close to a decade of experience building digital products. I treat software as a craft—building things that are clear, resilient, and designed to last.",
 };
 
 export const BLOG: Metadata = {

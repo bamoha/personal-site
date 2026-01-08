@@ -1,12 +1,16 @@
 ---
 type Props = {
-  href: string;
+  href?: string;
 }
 
 const { href } = Astro.props;
 ---
  
-<a href={href} class="relative group w-fit flex pl-7 pr-3 py-1.5 flex-nowrap rounded border border-black/15 dark:border-white/20 hover:bg-black/5 dark:hover:bg-white/5 hover:text-black dark:hover:text-white transition-colors duration-300 ease-in-out">
+<button 
+  id="back-button"
+  data-fallback={href}
+  class="relative group w-fit flex pl-7 pr-3 py-1.5 flex-nowrap rounded border border-black/15 dark:border-white/20 hover:bg-black/5 dark:hover:bg-white/5 hover:text-black dark:hover:text-white transition-colors duration-300 ease-in-out cursor-pointer"
+>
   <svg 
     xmlns="http://www.w3.org/2000/svg" 
     viewBox="0 0 24 24"
@@ -17,4 +21,47 @@ const { href } = Astro.props;
   <div class="text-sm">
     <slot/>
   </div>
-</a>
+</button>
+
+<script>
+  // Track navigation history for view transitions
+  let previousPath = sessionStorage.getItem("previousPath") || "";
+  
+  function updatePreviousPath() {
+    const currentPath = window.location.pathname;
+    sessionStorage.setItem("previousPath", currentPath);
+  }
+  
+  function initBackButton() {
+    const button = document.getElementById("back-button");
+    if (!button) return;
+    
+    // Remove any existing listeners by cloning
+    const newButton = button.cloneNode(true) as HTMLButtonElement;
+    button.parentNode?.replaceChild(newButton, button);
+    
+    newButton.addEventListener("click", () => {
+      const fallback = newButton.getAttribute("data-fallback") || "/";
+      const prevPath = sessionStorage.getItem("previousPath") || "";
+      
+      // Check if previous page was a blog post
+      const wasBlogPost = /^\/blog\/[^/]+\/?$/.test(prevPath);
+      
+      if (wasBlogPost) {
+        // If coming from another blog post, go to blog index
+        window.location.href = "/blog";
+      } else if (window.history.length > 1) {
+        window.history.back();
+      } else {
+        window.location.href = fallback;
+      }
+    });
+  }
+  
+  // Update path before navigating away
+  updatePreviousPath();
+  
+  initBackButton();
+  document.addEventListener("astro:before-swap", updatePreviousPath);
+  document.addEventListener("astro:after-swap", initBackButton);
+</script>

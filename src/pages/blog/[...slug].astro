@@ -4,6 +4,7 @@ import PageLayout from "@layouts/PageLayout.astro";
 import Container from "@components/Container.astro";
 import FormattedDate from "@components/FormattedDate.astro";
 import SharePost from "@components/SharePost.astro";
+import ArrowCard from "@components/ArrowCard.astro";
 import { readingTime } from "@lib/utils";
 import BackToPrev from "@components/BackToPrev.astro";
 import { SEO } from "@consts";
@@ -14,17 +15,27 @@ export async function getStaticPaths() {
     .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
   return posts.map((post) => ({
     params: { slug: post.slug },
-    props: post,
+    props: { post, allPosts: posts },
   }));
 }
-type Props = CollectionEntry<"blog">;
 
-const post = Astro.props;
+type Props = {
+  post: CollectionEntry<"blog">;
+  allPosts: CollectionEntry<"blog">[];
+};
+
+const { post, allPosts } = Astro.props;
 const { Content } = await post.render();
 const postUrl = new URL(Astro.url.pathname, Astro.site).toString();
 
 // Extract tags from post if available
 const tags = post.data.tags || [];
+
+// Get other posts (excluding current one) and shuffle them
+const otherPosts = allPosts
+  .filter(p => p.slug !== post.slug)
+  .sort(() => Math.random() - 0.5)
+  .slice(0, 3);
 ---
 
 <PageLayout 
@@ -39,7 +50,7 @@ const tags = post.data.tags || [];
   <Container>
     <div class="animate">
       <BackToPrev href="/blog">
-        Back to blog
+        Back
       </BackToPrev>
     </div>
     <div class="space-y-1 my-10">
@@ -60,5 +71,20 @@ const tags = post.data.tags || [];
       <Content />
       <SharePost title={post.data.title} url={postUrl} />
     </article>
+    
+    {otherPosts.length > 0 && (
+      <section class="animate mt-16 pt-8 border-t border-black/10 dark:border-white/10">
+        <h2 class="font-semibold text-black dark:text-[#d1d5db] mb-4">
+          You might also like
+        </h2>
+        <ul class="flex flex-col gap-4">
+          {otherPosts.map((otherPost) => (
+            <li>
+              <ArrowCard entry={otherPost} />
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
   </Container>
 </PageLayout>
